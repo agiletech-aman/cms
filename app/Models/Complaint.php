@@ -63,6 +63,11 @@ class Complaint extends Model
             ->orderBy('created_at');
     }
 
+    public function engineer()
+    {
+        return $this->belongsTo(Engineer::class, 'engineer_id', 'id');
+    }
+
     public function visits()
     {
         return $this->hasMany(ComplaintVisit::class, 'complaint_id', 'id')

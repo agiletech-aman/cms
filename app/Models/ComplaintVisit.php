@@ -12,6 +12,11 @@ class ComplaintVisit extends Model
         'visit_date' => 'datetime',
     ];
 
+    public function engineer()
+    {
+        return $this->belongsTo(Engineer::class, 'engineer_id', 'id');
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id', 'id');

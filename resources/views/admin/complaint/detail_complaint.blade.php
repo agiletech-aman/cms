@@ -151,6 +151,12 @@
                                             </div>
                                         @endif
                                     @endif
+                                    @if($complaint->engineer)
+                                        <div class="col-4">
+                                            <p><strong>Assigned Engineer: </strong> {{ $complaint->engineer->name }}
+                                                ({{ $complaint->engineer->phone }})</p>
+                                        </div>
+                                    @endif
                                     @if(!empty($complaint->root_cause))
                                         <div class="col-4">
                                             <p><strong>Root Cause: </strong> {{ $complaint->root_cause }}</p>
@@ -187,7 +193,7 @@
             </div>
 
             @php
-                $visits = $complaint->visits()->with('user')->get();
+                $visits = $complaint->visits()->with(['user', 'engineer'])->get();
                 $visitFiles = App\Models\ComplaintImage::whereIn('comment_id', $visits->pluck('comment_id')->filter())
                     ->get()->groupBy('comment_id');
             @endphp
@@ -204,6 +210,7 @@
                                             <tr>
                                                 <th>Visit #</th>
                                                 <th>Visit Date</th>
+                                                <th>Engineer</th>
                                                 <th>Updated By</th>
                                                 <th>Remark</th>
                                                 <th>Attachment</th>
@@ -214,6 +221,7 @@
                                                 <tr>
                                                     <td>{{ $loop->iteration }}</td>
                                                     <td>{{ $visit->visit_date->format('d-m-Y H:i:s') }}</td>
+                                                    <td>{{ optional($visit->engineer)->name ?? '-' }}</td>
                                                     <td>
                                                         @if($visit->user && $visit->user->hasRole(['SuperAdmin', 'Railtel', 'Vendor']))
                                                             Railtel Team
@@ -383,6 +391,18 @@
                                             <option value="" selected="" hidden>Select Complaint Status</option>
                                             <option value="1">In Progress</option>
                                             <option value="2">Resolved</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="col-md-10 mb-3" id="engineer_div">
+                                        <label>Assign Engineer</label>
+                                        <select class="form-select" name="engineer_id" id="engineer_id">
+                                            <option value="">Select Engineer</option>
+                                            @foreach(\App\Models\Engineer::orderBy('name')->get() as $eng)
+                                                <option value="{{ $eng->id }}" {{ old('engineer_id', $complaint->engineer_id) == $eng->id ? 'selected' : '' }}>
+                                                    {{ $eng->name }} ({{ $eng->phone }})
+                                                </option>
+                                            @endforeach
                                         </select>
                                     </div>
 

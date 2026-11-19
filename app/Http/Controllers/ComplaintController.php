@@ -759,6 +759,7 @@ class ComplaintController extends Controller
         'reopen_date'       => 'nullable|date',
         'remark'            => 'nullable|string',
         'root_cause'        => ['nullable', 'required_if:complaint_status,2', \Illuminate\Validation\Rule::in(Complaint::ROOT_CAUSES)],
+        'engineer_id'       => 'nullable|exists:engineers,id',
     ], $messages + [
         'root_cause.required_if' => 'Root cause is required when the status is Resolved.',
         'root_cause.in' => 'Please select a valid root cause.',
@@ -1033,6 +1034,7 @@ if ($request->hasFile('complaint_files')) {
             \App\Models\ComplaintVisit::create([
                 'complaint_id' => $complaint->id,
                 'user_id'      => $user->id,
+                'engineer_id'  => $request->engineer_id ?: $complaint->engineer_id,
                 'comment_id'   => $comment->id,
                 'visit_date'   => Carbon::parse($request->visit_date),
                 'remark'       => $request->remark,
@@ -1050,6 +1052,9 @@ if ($request->hasFile('complaint_files')) {
     }
     if ($request->filled('root_cause')) {
         $updateData['root_cause'] = $request->root_cause;
+    }
+    if ($request->filled('engineer_id')) {
+        $updateData['engineer_id'] = $request->engineer_id;
     }
 
     $complaint->update($updateData);
