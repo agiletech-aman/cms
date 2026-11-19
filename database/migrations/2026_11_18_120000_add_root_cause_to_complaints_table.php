@@ -1,0 +1,26 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up(): void
+    {
+        if (!Schema::hasColumn('complaints', 'root_cause')) {
+            Schema::table('complaints', function (Blueprint $table) {
+                $table->string('root_cause')->nullable()->after('complaint_status');
+            });
+        }
+    }
+
+    public function down(): void
+    {
+        if (Schema::hasColumn('complaints', 'root_cause')) {
+            Schema::table('complaints', function (Blueprint $table) {
+                $table->dropColumn('root_cause');
+            });
+        }
+    }
+};

@@ -1,0 +1,1 @@
+{"chart": {"type": "pie"}, "title": {"text": "Complaint Status"}, "series": [{"name": "CMS Complaint status", "data": [{"name": "In-Progress", "y": 16}, {"name": "Pending", "y": 182}, {"name": "Resolved", "y": 488}, {"name": "Closed", "y": 4307}, {"name": "Cancelled", "y": 7}, {"name": "Hold", "y": 45}, {"name": "Reopened", "y": 2}]}]}
