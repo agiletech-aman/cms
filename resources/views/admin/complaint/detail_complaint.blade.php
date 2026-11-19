@@ -188,6 +188,8 @@
 
             @php
                 $visits = $complaint->visits()->with('user')->get();
+                $visitFiles = App\Models\ComplaintImage::whereIn('comment_id', $visits->pluck('comment_id')->filter())
+                    ->get()->groupBy('comment_id');
             @endphp
             <div class="row">
                 <div class="col-12">
@@ -204,6 +206,7 @@
                                                 <th>Visit Date</th>
                                                 <th>Updated By</th>
                                                 <th>Remark</th>
+                                                <th>Attachment</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -219,6 +222,21 @@
                                                         @endif
                                                     </td>
                                                     <td>{{ $visit->remark ?: '-' }}</td>
+                                                    <td>
+                                                        @forelse($visitFiles->get($visit->comment_id, collect()) as $file)
+                                                            @php
+                                                                $vfUrl = url($file->complaint_image);
+                                                                $vfIsPdf = strtolower(pathinfo($file->complaint_image, PATHINFO_EXTENSION)) === 'pdf';
+                                                            @endphp
+                                                            <a href="{{ $vfUrl }}" target="_blank" rel="noopener noreferrer"
+                                                                class="btn btn-sm btn-outline-primary mb-1">
+                                                                <i class="fas {{ $vfIsPdf ? 'fa-file-pdf' : 'fa-image' }}"></i>
+                                                                View {{ $vfIsPdf ? 'PDF' : 'Image' }} {{ $loop->count > 1 ? $loop->iteration : '' }}
+                                                            </a>
+                                                        @empty
+                                                            -
+                                                        @endforelse
+                                                    </td>
                                                 </tr>
                                             @endforeach
                                         </tbody>
