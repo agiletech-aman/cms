@@ -270,6 +270,7 @@
                                     // Visit (In Progress) entries are shown in the Visits table, so skip them here
                                     $comments = App\Models\Comment::where('complaint_id', $complaint->id)
                                         ->whereNotIn('id', $visits->pluck('comment_id')->filter())
+                                        ->where('comment', '!=', 'This complaint is Inprogress')
                                         ->latest()->get();
                                 @endphp
 

@@ -239,6 +239,19 @@
                         </li>
                     @endif
 
+                    @if(Auth::user()->hasRole('SuperAdmin'))
+                        <li>
+                            <a href="javascript: void(0);" class="has-arrow waves-effect">
+                                <i class="ri-user-settings-line"></i>
+                                <span>Engineers</span>
+                            </a>
+                            <ul class="sub-menu" aria-expanded="false">
+                                <li><a href="{{ route('all.engineer') }}">All Engineers</a></li>
+                                <li><a href="{{ route('add.engineer') }}">Add Engineer</a></li>
+                            </ul>
+                        </li>
+                    @endif
+
                     @if(Auth::user()->can('category.menu'))
                         <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">

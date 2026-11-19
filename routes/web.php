@@ -171,6 +171,16 @@ Route::middleware(['auth', 'prevent-sensitive-cache'])->group(function () {
         Route::get('/active/regionalmanager/{id}', 'ActiveRegionalManager')->name('active.regionalmanager')->middleware('permission:regionalManager.status');
     });
 
+    //Engineer All Route (SuperAdmin only)
+    Route::controller(\App\Http\Controllers\EngineerController::class)->middleware('role:SuperAdmin')->group(function () {
+        Route::get('/all/engineer', 'AllEngineer')->name('all.engineer');
+        Route::get('/add/engineer', 'AddEngineer')->name('add.engineer');
+        Route::post('/store/engineer', 'StoreEngineer')->name('store.engineer');
+        Route::get('/edit/engineer/{id}', 'EditEngineer')->name('edit.engineer');
+        Route::post('/update/engineer/{id}', 'UpdateEngineer')->name('update.engineer');
+        Route::get('/delete/engineer/{id}', 'DeleteEngineer')->name('delete.engineer');
+    });
+
     //CorporateOffice All Route
     Route::controller(CorporateOfficeController::class)->group(function () {
         Route::get('/all/corporateoffice', 'AllCorporateOffice')->name('all.corporateoffice')->middleware('permission:corporateOffice.list');
