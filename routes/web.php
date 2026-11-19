@@ -171,8 +171,8 @@ Route::middleware(['auth', 'prevent-sensitive-cache'])->group(function () {
         Route::get('/active/regionalmanager/{id}', 'ActiveRegionalManager')->name('active.regionalmanager')->middleware('permission:regionalManager.status');
     });
 
-    //Engineer All Route (SuperAdmin only)
-    Route::controller(\App\Http\Controllers\EngineerController::class)->middleware('role:SuperAdmin')->group(function () {
+    //Engineer All Route (SuperAdmin + Railtel)
+    Route::controller(\App\Http\Controllers\EngineerController::class)->middleware('role:SuperAdmin|Railtel')->group(function () {
         Route::get('/all/engineer', 'AllEngineer')->name('all.engineer');
         Route::get('/add/engineer', 'AddEngineer')->name('add.engineer');
         Route::post('/store/engineer', 'StoreEngineer')->name('store.engineer');

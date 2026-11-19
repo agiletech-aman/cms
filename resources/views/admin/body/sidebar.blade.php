@@ -239,7 +239,7 @@
                         </li>
                     @endif
 
-                    @if(Auth::user()->hasRole('SuperAdmin'))
+                    @if(Auth::user()->hasAnyRole(['SuperAdmin', 'Railtel']))
                         <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">
                                 <i class="ri-user-settings-line"></i>
