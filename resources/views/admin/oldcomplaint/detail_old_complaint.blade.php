@@ -401,12 +401,6 @@
                                     <label>Message</label>
                                     <textarea class="form-control" name="comment" id="comment" rows="3"></textarea>
                                 </div>
-                                <div class="col-md-12 mb-3">
-                                    <label>Attachment (Images/PDFs)</label>
-                                    <input type="file" class="form-control" name="comment_files[]" id="comment_files"
-                                        multiple accept=".jpeg,.jpg,.png,.gif,.svg,.pdf">
-                                    <small class="text-muted">Allowed file types: JPEG, JPG, PNG, GIF, SVG, PDF (Max size: 2MB each)</small>
-                                </div>
                             </div>
                             <input type="submit" class="btn btn-info waves-effect waves-light" value="Add Comment">
 
