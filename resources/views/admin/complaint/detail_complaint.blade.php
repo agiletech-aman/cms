@@ -267,7 +267,10 @@
                            
                             <div class="row mt-3">
                                 @php
-                                    $comments = App\Models\Comment::where('complaint_id', $complaint->id)->latest()->get();
+                                    // Visit (In Progress) entries are shown in the Visits table, so skip them here
+                                    $comments = App\Models\Comment::where('complaint_id', $complaint->id)
+                                        ->whereNotIn('id', $visits->pluck('comment_id')->filter())
+                                        ->latest()->get();
                                 @endphp
 
                                 @if($comments->count() > 0)
