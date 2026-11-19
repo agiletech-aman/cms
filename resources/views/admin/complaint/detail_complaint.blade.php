@@ -222,13 +222,7 @@
                                                     <td>{{ $loop->iteration }}</td>
                                                     <td>{{ $visit->visit_date->format('d-m-Y H:i:s') }}</td>
                                                     <td>{{ optional($visit->engineer)->name ?? '-' }}</td>
-                                                    <td>
-                                                        @if($visit->user && $visit->user->hasRole(['SuperAdmin', 'Railtel', 'Vendor']))
-                                                            Railtel Team
-                                                        @else
-                                                            {{ optional($visit->user)->name ?? 'N/A' }}
-                                                        @endif
-                                                    </td>
+                                                    <td>{{ optional($visit->user)->name ?? 'N/A' }}</td>
                                                     <td>{{ $visit->remark ?: '-' }}</td>
                                                     <td>
                                                         @forelse($visitFiles->get($visit->comment_id, collect()) as $file)

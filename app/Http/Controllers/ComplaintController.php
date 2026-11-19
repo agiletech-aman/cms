@@ -1058,7 +1058,18 @@ if ($request->hasFile('complaint_files')) {
     }
 
     $complaint->update($updateData);
- 
+
+    // Resolved -> mail to addresses configured in .env (RESOLVED_COMPLAINT_MAIL_TO)
+    if ((int) $request->complaint_status === 2 && !empty(config('complaint.resolved_mail_to'))) {
+        try {
+            \Illuminate\Support\Facades\Mail::to(config('complaint.resolved_mail_to'))
+                ->send(new \App\Mail\ComplaintResolvedMail($complaint->fresh(), $user->name));
+        } catch (\Throwable $e) {
+            // Status update must not fail because of mail problems
+            \Illuminate\Support\Facades\Log::error('Resolved complaint mail failed: ' . $e->getMessage());
+        }
+    }
+
     return redirect()->back()->with([
         'message' => 'Complaint Status Updated Successfully',
         'alert-type' => 'success'

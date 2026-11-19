@@ -14,6 +14,7 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')->hourly();
         $schedule->command('complaints:check-unresolved')->dailyAt('09:00');
+        $schedule->command('complaints:auto-close')->hourly()->withoutOverlapping();
 
     }
 
